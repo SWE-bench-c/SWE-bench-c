@@ -115,9 +115,14 @@ def load_swebench_dataset(name="princeton-nlp/SWE-bench", split="test", instance
     if instance_ids:
         instance_ids = set(instance_ids)
     # Load from local .json/.jsonl file
-    if name.endswith(".json") or name.endswith(".jsonl"):
+    if name.endswith(".json") :
         dataset = json.loads(Path(name).read_text())
         dataset_ids = {instance[KEY_INSTANCE_ID] for instance in dataset}
+    elif name.endswith(".jsonl"):
+        with open(name, "r") as f:
+            dataset = [json.loads(line) for line in f]
+        dataset_ids = {instance[KEY_INSTANCE_ID] for instance in dataset}
+
     else:
         # Load from Hugging Face Datasets
         if name.lower() in {"swe-bench", "swebench", "swe_bench"}:
