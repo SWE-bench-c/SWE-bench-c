@@ -8,6 +8,8 @@ from swebench.harness.test_spec.python import (
     make_env_script_list_py,
     make_eval_script_list_py,
 )
+
+from swebench.harness.test_spec import c
 from swebench.harness.constants import MAP_REPO_TO_EXT
 
 
@@ -21,6 +23,7 @@ def make_repo_script_list(
     func = {
         "js": make_repo_script_list_js,
         "py": make_repo_script_list_py,
+        "c" : c.make_repo_script_list_c
     }[ext]
     return func(specs, repo, repo_directory, base_commit, env_name)
 
@@ -34,6 +37,7 @@ def make_env_script_list(instance, specs, env_name) -> list:
     func = {
         "js": make_env_script_list_js,
         "py": make_env_script_list_py,
+        "c": c.make_env_script_list_c,
     }[ext]
     return func(instance, specs, env_name)
 
@@ -47,5 +51,6 @@ def make_eval_script_list(
     func = {
         "js": make_eval_script_list_js,
         "py": make_eval_script_list_py,
+        "c": c.make_eval_script_list_c,
     }[ext]
     return func(instance, specs, env_name, repo_directory, base_commit, test_patch)

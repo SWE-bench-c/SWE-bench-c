@@ -9,20 +9,24 @@ from swebench.harness.dockerfiles.python import (
     _DOCKERFILE_ENV_PY,
     _DOCKERFILE_INSTANCE_PY,
 )
+from swebench.harness.dockerfiles import c
 
 _DOCKERFILE_BASE = {
     "py": _DOCKERFILE_BASE_PY,
     "js": _DOCKERFILE_BASE_JS,
+    "c": c._DOCKERFILE_BASE_C,
 }
 
 _DOCKERFILE_ENV = {
     "py": _DOCKERFILE_ENV_PY,
     "js": _DOCKERFILE_ENV_JS,
+    "c": c._DOCKERFILE_ENV_C,
 }
 
 _DOCKERFILE_INSTANCE = {
     "py": _DOCKERFILE_INSTANCE_PY,
     "js": _DOCKERFILE_INSTANCE_JS,
+    "c": c._DOCKERFILE_INSTANCE_C,
 }
 
 def get_dockerfile_base(platform, arch, language):
