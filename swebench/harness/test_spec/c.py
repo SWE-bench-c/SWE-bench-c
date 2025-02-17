@@ -151,15 +151,6 @@ def get_test_directives(instance: SWEbenchInstance) -> list:
         d for d in directives if not any(d.endswith(ext) for ext in NON_TEST_EXTS)
     ]
 
-    # For Django tests, remove extension + "tests/" prefix and convert slashes to dots (module referencing)
-    if instance["repo"] == "django/django":
-        directives_transformed = []
-        for d in directives:
-            d = d[: -len(".py")] if d.endswith(".py") else d
-            d = d[len("tests/") :] if d.startswith("tests/") else d
-            d = d.replace("/", ".")
-            directives_transformed.append(d)
-        directives = directives_transformed
 
     return directives
 
@@ -222,8 +213,6 @@ def make_eval_script_list_c(instance, specs, env_name, repo_directory, base_comm
         ]
     )
     eval_commands = [
-        f"source /opt/miniconda3/bin/activate",
-        f"conda activate {env_name}",
         f"cd {repo_directory}",
     ]
     if "eval_commands" in specs:
@@ -232,11 +221,9 @@ def make_eval_script_list_c(instance, specs, env_name, repo_directory, base_comm
         f"git config --global --add safe.directory {repo_directory}",  # for nonroot user
         f"cd {repo_directory}",
         # This is just informational, so we have a record
-        f"git status",
-        f"git show",
+        "git status",
+        "git show",
         f"git -c core.fileMode=false diff {base_commit}",
-        "source /opt/miniconda3/bin/activate",
-        f"conda activate {env_name}",
     ]
     if "install" in specs:
         eval_commands.append(specs["install"])
