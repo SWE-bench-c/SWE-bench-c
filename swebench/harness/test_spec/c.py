@@ -208,7 +208,7 @@ def make_eval_script_list_c(instance, specs, env_name, repo_directory, base_comm
     )
     test_command = " ".join(
         [
-            # MAP_REPO_VERSION_TO_SPECS[instance["repo"]][instance["version"]]["test_cmd"],
+            MAP_REPO_VERSION_TO_SPECS[instance["repo"]][instance["version"]]["test_cmd"],
             *get_test_directives(instance),
         ]
     )
