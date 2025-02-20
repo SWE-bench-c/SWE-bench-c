@@ -170,7 +170,6 @@ def main(args):
     data_task_lists = split_instances(data_tasks, args.num_workers)
 
     repo_prefix = data_tasks[0]["repo"].replace("/", "__")
-    repo_name = data_tasks[0]["repo"]
 
     logger.info(
         f"Getting versions for {len(data_tasks)} instances for {data_tasks[0]['repo']}"
@@ -190,7 +189,7 @@ def main(args):
             logger.info(
                 f"Creating clone of {data_tasks[0]['repo']} at {testbed_repo_name}"
             )
-            cmd_clone = f"git clone git@github.com:{repo_name} {testbed_repo_name}"
+            cmd_clone = f"git clone git@github.com:c-bench/{repo_prefix} {testbed_repo_name}"
             subprocess.run(cmd_clone, shell=True, check=True, stdout=subprocess.DEVNULL)
         else:
             logger.info(

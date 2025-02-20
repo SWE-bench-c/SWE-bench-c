@@ -14,7 +14,7 @@ from swebench.harness.constants import MAP_REPO_TO_EXT
 
 
 def make_repo_script_list(
-    specs, repo, repo_directory, base_commit, env_name) -> list:
+        specs, repo, repo_directory, base_commit, env_name, repo_host: str) -> list:
     """
     Create a list of bash commands to set up the repository for testing.
     This is the setup script for the instance image.
@@ -25,7 +25,7 @@ def make_repo_script_list(
         "py": make_repo_script_list_py,
         "c" : c.make_repo_script_list_c
     }[ext]
-    return func(specs, repo, repo_directory, base_commit, env_name)
+    return func(specs, repo, repo_directory, base_commit, env_name, repo_host)
 
 
 def make_env_script_list(instance, specs, env_name) -> list:

@@ -155,13 +155,13 @@ def get_test_directives(instance: SWEbenchInstance) -> list:
     return directives
 
 
-def make_repo_script_list_c(specs, repo, repo_directory, base_commit, env_name) -> list:
+def make_repo_script_list_c(specs, repo, repo_directory, base_commit, env_name, repo_host) -> list:
     """
     Create a list of bash commands to set up the repository for testing.
     This is the setup script for the instance image.
     """
     setup_commands = [
-        f"git clone -o origin https://github.com/{repo} {repo_directory}",
+        f"git clone -o origin {repo_host}/{repo} {repo_directory}",
         f"chmod -R 777 {repo_directory}",  # So nonroot user can run tests
         f"cd {repo_directory}",
         f"git reset --hard {base_commit}",

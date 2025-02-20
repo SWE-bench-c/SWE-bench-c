@@ -3,10 +3,11 @@ import json
 import platform
 
 from dataclasses import dataclass
-from typing import Any, Union, cast
+from typing import Any, Optional, Union, cast
 
 from swebench.harness.constants import (
     DEFAULT_DOCKER_SPECS,
+    DEFAULT_GIT_HOST,
     KEY_INSTANCE_ID,
     LATEST,
     MAP_REPO_TO_EXT,
@@ -137,10 +138,11 @@ def get_test_specs_from_dataset(
 
 def make_test_spec(
         instance: SWEbenchInstance,
-        namespace: str=None,
+        namespace: Optional[str]=None,
         base_image_tag: str=LATEST,
         env_image_tag: str=LATEST,
         instance_image_tag: str=LATEST,
+        repo_host: str = DEFAULT_GIT_HOST
     ) -> TestSpec:
     if isinstance(instance, TestSpec):
         return instance
@@ -172,7 +174,7 @@ def make_test_spec(
     specs = MAP_REPO_VERSION_TO_SPECS[repo][version]
     docker_specs = specs.get("docker_specs", {})
 
-    repo_script_list = make_repo_script_list(specs, repo, repo_directory, base_commit, env_name)
+    repo_script_list = make_repo_script_list(specs, repo, repo_directory, base_commit, env_name, repo_host)
     env_script_list = make_env_script_list(instance, specs, env_name)
     eval_script_list = make_eval_script_list(
         instance, specs, env_name, repo_directory, base_commit, test_patch

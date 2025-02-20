@@ -23,3 +23,4 @@ MAP_REPO_TO_EXT = {
 
 LATEST = "latest"
 USE_X86 = USE_X86_PY
+DEFAULT_GIT_HOST = "https://github.com"
