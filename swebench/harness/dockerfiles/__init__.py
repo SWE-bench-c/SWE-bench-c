@@ -1,3 +1,4 @@
+from swebench.harness.constants import DEFAULT_GIT_HOST
 from swebench.harness.dockerfiles.javascript import (
     _DOCKERFILE_BASE_JS,
     _DOCKERFILE_ENV_JS,
@@ -40,10 +41,12 @@ def get_dockerfile_base(platform, arch, language):
     )
 
 
-def get_dockerfile_env(platform, arch, language, **kwargs):
+def get_dockerfile_env(platform, arch, language, repo, **kwargs):
+    repo_link = f"{DEFAULT_GIT_HOST}/{repo}.git"
     return _DOCKERFILE_ENV[language].format(
         platform=platform,
         arch=arch,
+        repo_link=repo_link,
         **kwargs
     )
 

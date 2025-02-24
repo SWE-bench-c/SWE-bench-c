@@ -31,6 +31,10 @@ RUN chmod +x /root/setup_env.sh
 # Run the setup script
 RUN /bin/bash -c "source ~/.bashrc && /root/setup_env.sh"
 
+RUN git clone {repo_link} testbed
+RUN git config --global --add safe.directory testbed
+RUN chmod -R 777 testbed
+
 WORKDIR /testbed/
 """
 
