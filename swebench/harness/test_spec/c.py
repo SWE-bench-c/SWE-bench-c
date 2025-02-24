@@ -161,8 +161,6 @@ def make_repo_script_list_c(specs, repo, repo_directory, base_commit, env_name, 
     This is the setup script for the instance image.
     """
     setup_commands = [
-        f"git clone -o origin {repo_host}/{repo} {repo_directory}",
-        f"chmod -R 777 {repo_directory}",  # So nonroot user can run tests
         f"cd {repo_directory}",
         f"git reset --hard {base_commit}",
         # Remove the remote so the agent won't see newer commits.
@@ -218,7 +216,6 @@ def make_eval_script_list_c(instance, specs, env_name, repo_directory, base_comm
     if "eval_commands" in specs:
         eval_commands += specs["eval_commands"]
     eval_commands += [
-        f"git config --global --add safe.directory {repo_directory}",  # for nonroot user
         f"cd {repo_directory}",
         # This is just informational, so we have a record
         "git status",
