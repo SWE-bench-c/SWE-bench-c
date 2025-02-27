@@ -15,17 +15,23 @@ def parse_log_zstd(log: str, test_spec: TestSpec) -> dict[str, str]:
     """
 
     # unused variable ignore
-    del test_spec
-    test_result_pattern = r"make: \*\*\* \[(?P<makefile>\w+):(?P<line_no>\d+): (?P<test_name>\S+)] Error \d+"
-    results = map(lambda line: re.search(test_result_pattern, line), log.splitlines())
+    failed_test_trace_pattern = r"make: \*\*\* \[(?P<makefile>\w+):(?P<line_no>\d+): (?P<test_name>\S+)] Error \d+"
+    failed_test_re = map(lambda line: re.search(failed_test_trace_pattern, line), log.splitlines())
     test_status_map = {}
-    for match in results:
+    for match in failed_test_re:
         if match is None:
             continue
-        make_file = match.group("makefile")
-        line_no = match.group("line_no")
         test_name = match.group("test_name")
         test_status_map[test_name] = TestStatus.FAILED.value
+
+    failed_tests = set(test_status_map.keys())
+    success_test_trace_pattern = r"[^:]+:\d: update target '(?P<recipe>[^']+)' due to: .*"
+
+    for match_line in  re.finditer(success_test_trace_pattern, log):
+        test_name = match_line.group('recipe')
+        if test_name not in failed_tests:
+            test_status_map[test_name]= TestStatus.PASSED.value
+
     return test_status_map
 
 
