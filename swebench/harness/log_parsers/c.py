@@ -4,6 +4,31 @@ from swebench.harness.constants import TestStatus
 from swebench.harness.test_spec.test_spec import TestSpec
 
 
+def parse_log_zstd(log: str, test_spec: TestSpec) -> dict[str, str]:
+    """
+    Parser for test logs generated from jq tests
+
+    Args:
+        log (str): log content
+    Returns:
+        dict: test case to test status mapping
+    """
+
+    # unused variable ignore
+    del test_spec
+    test_result_pattern = r"make: \*\*\* \[(?P<makefile>\w+):(?P<line_no>\d+): (?P<test_name>\S+)] Error \d+"
+    results = map(lambda line: re.search(test_result_pattern, line), log.splitlines())
+    test_status_map = {}
+    for match in results:
+        if match is None:
+            continue
+        make_file = match.group("makefile")
+        line_no = match.group("line_no")
+        test_name = match.group("test_name")
+        test_status_map[test_name] = TestStatus.FAILED.value
+    return test_status_map
+
+
 def parse_log_jq(log: str, test_spec: TestSpec) -> dict[str, str]:
     """
     Parser for test logs generated from jq tests
@@ -46,4 +71,5 @@ def parse_log_jq(log: str, test_spec: TestSpec) -> dict[str, str]:
 
 MAP_REPO_TO_PARSER_C = {
     "jqlang/jq": parse_log_jq,
+    "facebook/zstd": parse_log_zstd,
 }
