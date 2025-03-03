@@ -1,10 +1,8 @@
-
-
 SPECS_JQ1 = {
     version: {
         "test_cmd": "autoreconf -i \
             && ./configure --with-oniguruma=builtin && make -j${TEST_MAKE_THREADS}  && make -j${TEST_MAKE_THREADS}  check -s",
-        "apt-pkgs": ["bison", "flex", "libtool","libonig-dev"],
+        "apt-pkgs": ["bison", "flex", "libtool", "libonig-dev"],
     }
     for version in ["jq-1.7rc2", "jq-1.7rc1", "jq-1.6rc1"]
 }
@@ -13,7 +11,7 @@ SPECS_JQ2 = {
     version: {
         "test_cmd": "autoreconf -i \
             && ./configure --with-oniguruma=builtin && make -j${TEST_MAKE_THREADS}  && make -j${TEST_MAKE_THREADS}  check -s",
-        "apt-pkgs": ["bison", "flex", "libtool","libonig-dev"],
+        "apt-pkgs": ["bison", "flex", "libtool", "libonig-dev"],
     }
     for version in ["jq-1.6rc1"]
 }
@@ -23,17 +21,26 @@ SPECS_JQ3 = {
     version: {
         "test_cmd": "autoreconf -i \
             && ./configure && make -j${TEST_MAKE_THREADS}  && make -j${TEST_MAKE_THREADS} check -s",
-        "apt-pkgs": ["bison", "flex", "libtool","libonig-dev"],
+        "apt-pkgs": ["bison", "flex", "libtool", "libonig-dev"],
     }
-    for version in [ "jq-1.5rc1", "jq-1.5rc2", "jq-1.3"]
+    for version in ["jq-1.5rc1", "jq-1.5rc2", "jq-1.3"]
 }
 
 SPECS_ZSTD = {
-    version: {
-        "test_cmd": "make -k -j${TEST_MAKE_THREADS} --trace test",
-        "apt-pkgs": [],
-    }
-    for version in ["zstd-0.4.2"]
+    "playtest": {
+        "test_cmd": "make -j4 zstd \
+                && cd tests \
+                && make -j4 datagen \
+                && ZSTD=../programs/zstd ./playTests.sh \
+                && echo 'playtest result => pass' \
+                || echo 'playtest result => fail'; \
+                cd ..",
+        "apt-pkgs": ["file", "python3"],
+    },
+    "zstd-0.4.2": {
+        "test_cmd": "make -k -j4 --trace check",
+        "apt-pkgs": ["file"],
+    },
 }
 
 INSTALL_JQ = "git submodule update --init "
