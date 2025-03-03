@@ -3,7 +3,7 @@
 SPECS_JQ1 = {
     version: {
         "test_cmd": "autoreconf -i \
-            && ./configure --with-oniguruma=builtin && make && make check -s",
+            && ./configure --with-oniguruma=builtin && make -j${TEST_MAKE_THREADS}  && make -j${TEST_MAKE_THREADS}  check -s",
         "apt-pkgs": ["bison", "flex", "libtool","libonig-dev"],
     }
     for version in ["jq-1.7rc2", "jq-1.7rc1", "jq-1.6rc1"]
@@ -12,7 +12,7 @@ SPECS_JQ1 = {
 SPECS_JQ2 = {
     version: {
         "test_cmd": "autoreconf -i \
-            && ./configure --with-oniguruma=builtin && make && make check -s",
+            && ./configure --with-oniguruma=builtin && make -j${TEST_MAKE_THREADS}  && make -j${TEST_MAKE_THREADS}  check -s",
         "apt-pkgs": ["bison", "flex", "libtool","libonig-dev"],
     }
     for version in ["jq-1.6rc1"]
@@ -22,7 +22,7 @@ SPECS_JQ2 = {
 SPECS_JQ3 = {
     version: {
         "test_cmd": "autoreconf -i \
-            && ./configure && make && make check -s",
+            && ./configure && make -j${TEST_MAKE_THREADS}  && make -j${TEST_MAKE_THREADS} check -s",
         "apt-pkgs": ["bison", "flex", "libtool","libonig-dev"],
     }
     for version in [ "jq-1.5rc1", "jq-1.5rc2", "jq-1.3"]
@@ -30,7 +30,7 @@ SPECS_JQ3 = {
 
 SPECS_ZSTD = {
     version: {
-        "test_cmd": "make -k --trace test",
+        "test_cmd": "make -k -j${TEST_MAKE_THREADS} --trace test",
         "apt-pkgs": [],
     }
     for version in ["zstd-0.4.2"]

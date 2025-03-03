@@ -1,4 +1,5 @@
 from __future__ import annotations
+import os
 
 import docker
 import docker.errors
@@ -463,6 +464,7 @@ def build_container(
         # Define arguments for running the container
         run_args = test_spec.docker_specs.get("run_args", {})
         cap_add = run_args.get("cap_add", [])
+        environment_vars = {"TEST_MAKE_THREADS": os.environ.get("TEST_MAKE_THREADS", "1")}
 
         container = client.containers.create(
             image=test_spec.instance_image_key,
@@ -473,6 +475,7 @@ def build_container(
             platform=test_spec.platform,
             cap_add=cap_add,
             network="cbench",
+            environment=environment_vars,
         )
         logger.info(f"Container for {test_spec.instance_id} created: {container.id}")
         return container
