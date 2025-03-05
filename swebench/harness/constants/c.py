@@ -37,6 +37,15 @@ SPECS_ZSTD = {
                 cd ..",
         "apt-pkgs": ["file", "python3"],
     },
+    "fuzztest": {
+        "test_cmd": "make -j4 zstd \
+                && cd tests \
+                && make -j4 fuzztest \
+                && echo 'fuzztest result => pass' \
+                || echo 'fuzztest result => fail'; \
+                cd ..",
+        "apt-pkgs": ["file"],
+    },
     "zstd-0.4.2": {
         "test_cmd": "make -k -j4 --trace check",
         "apt-pkgs": ["file"],

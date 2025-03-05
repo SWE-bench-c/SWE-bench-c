@@ -24,6 +24,16 @@ def parse_log_zstd(log: str, test_spec: TestSpec) -> dict[str, str]:
                 test_status_map["playtest"] = TestStatus.PASSED.value
             else:
                 test_status_map["playtest"] = TestStatus.FAILED.value
+    elif test_spec.version == "fuzztest":
+        test_result_pattern = r"fuzztest result => (?P<result>\w+)"
+        search_result = re.search(test_result_pattern, log)
+        if search_result is None:
+            test_status_map["fuzztest"] = TestStatus.FAILED.value
+        else:
+            if search_result.group('result') == "pass":
+                test_status_map["fuzztest"] = TestStatus.PASSED.value
+            else:
+                test_status_map["fuzztest"] = TestStatus.FAILED.value
 
     else:
         # unused variable ignore
