@@ -46,6 +46,42 @@ SPECS_ZSTD = {
                 cd ..",
         "apt-pkgs": ["file"],
     },
+    "cli_tests": {
+        "test_cmd": "make -j4 zstd \
+                && cd tests \
+                && make -j4 test-cli-tests \
+                && echo 'cli_tests result => pass' \
+                || echo 'cli_tests result => fail'; \
+                cd ..",
+        "apt-pkgs": ["file"],
+    },
+    "regressiontest": {
+        "test_cmd": "make -j4 zstd \
+                && cd tests \
+                && make -j4 regressiontest \
+                && echo 'regressiontest result => pass' \
+                || echo 'regressiontest result => fail'; \
+                cd ..",
+        "apt-pkgs": ["file"],
+    },
+    "grep_test": {
+        "test_cmd": "make -j4 zstd \
+                && cd tests \
+                && make -j4 test-zstdgrep \
+                && echo 'grep_test result => pass' \
+                || echo 'grep_test result => fail'; \
+                cd ..",
+        "apt-pkgs": ["file"],
+    },
+    "zstream_tests": {
+        "test_cmd": "make -j4 zstd \
+                && cd tests \
+                && make -j4 test-zstream \
+                && echo 'zstream_tests result => pass' \
+                || echo 'zstream_tests result => fail'; \
+                cd ..",
+        "apt-pkgs": ["file"],
+    },
     "zstd-0.4.2": {
         "test_cmd": "make -k -j4 --trace check",
         "apt-pkgs": ["file"],

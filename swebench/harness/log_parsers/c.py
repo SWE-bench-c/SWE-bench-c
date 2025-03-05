@@ -34,6 +34,46 @@ def parse_log_zstd(log: str, test_spec: TestSpec) -> dict[str, str]:
                 test_status_map["fuzztest"] = TestStatus.PASSED.value
             else:
                 test_status_map["fuzztest"] = TestStatus.FAILED.value
+    elif test_spec.version == "cli_tests":
+        test_result_pattern = r"cli_tests result => (?P<result>\w+)"
+        search_result = re.search(test_result_pattern, log)
+        if search_result is None:
+            test_status_map["cli_tests"] = TestStatus.FAILED.value
+        else:
+            if search_result.group('result') == "pass":
+                test_status_map["cli_tests"] = TestStatus.PASSED.value
+            else:
+                test_status_map["cli_tests"] = TestStatus.FAILED.value
+    elif test_spec.version == "regressiontest":
+        test_result_pattern = r"regressiontest result => (?P<result>\w+)"
+        search_result = re.search(test_result_pattern, log)
+        if search_result is None:
+            test_status_map["regressiontest"] = TestStatus.FAILED.value
+        else:
+            if search_result.group('result') == "pass":
+                test_status_map["regressiontest"] = TestStatus.PASSED.value
+            else:
+                test_status_map["regressiontest"] = TestStatus.FAILED.value
+    elif test_spec.version == "zstream_tests":
+        test_result_pattern = r"zstream_tests result => (?P<result>\w+)"
+        search_result = re.search(test_result_pattern, log)
+        if search_result is None:
+            test_status_map["zstream_tests"] = TestStatus.FAILED.value
+        else:
+            if search_result.group('result') == "pass":
+                test_status_map["zstream_tests"] = TestStatus.PASSED.value
+            else:
+                test_status_map["zstream_tests"] = TestStatus.FAILED.value
+    elif test_spec.version == "grep_test":
+        test_result_pattern = r"grep_test result => (?P<result>\w+)"
+        search_result = re.search(test_result_pattern, log)
+        if search_result is None:
+            test_status_map["grep_test"] = TestStatus.FAILED.value
+        else:
+            if search_result.group('result') == "pass":
+                test_status_map["grep_test"] = TestStatus.PASSED.value
+            else:
+                test_status_map["grep_test"] = TestStatus.FAILED.value
 
     else:
         # unused variable ignore
