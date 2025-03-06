@@ -28,58 +28,66 @@ SPECS_JQ3 = {
 
 SPECS_ZSTD = {
     "playtest": {
-        "test_cmd": "make -j4 zstd \
-                && cd tests \
-                && make -j4 datagen \
-                && ZSTD=../programs/zstd ./playTests.sh \
-                && echo 'playtest result => pass' \
-                || echo 'playtest result => fail'; \
-                cd ..",
+        "test_cmd": '''( \\
+                make -j4 zstd \\
+                && cd tests \\
+                && make -j4 datagen \\
+                && ZSTD=../programs/zstd ./playTests.sh \\
+                && echo 'playtest result => pass' \\
+                || echo 'playtest result => fail' \\
+                ) #''',
         "apt-pkgs": ["file", "python3"],
     },
     "fuzztest": {
-        "test_cmd": "make -j4 zstd \
-                && cd tests \
-                && make -j4 fuzztest \
-                && echo 'fuzztest result => pass' \
-                || echo 'fuzztest result => fail'; \
-                cd ..",
+        "test_cmd": '''(
+                make -j4 zstd \\
+                && cd tests \\
+                && make -j4 fuzztest \\
+                && echo 'fuzztest result => pass' \\
+                || echo 'fuzztest result => fail' \\
+                ) #''',
         "apt-pkgs": ["file"],
     },
     "cli_tests": {
-        "test_cmd": "make -j4 zstd \
-                && cd tests \
-                && make -j4 test-cli-tests \
-                && echo 'cli_tests result => pass' \
-                || echo 'cli_tests result => fail'; \
-                cd ..",
-        "apt-pkgs": ["file"],
+        "test_cmd": '''(
+                make -j4 zstd \\
+                && cd tests \\
+                && make -j4 test-cli-tests \\
+                && echo 'cli_tests result => pass' \\
+                || echo 'cli_tests result => fail'
+                ) #''',
+        "apt-pkgs": ["file", "python3"],
     },
     "regressiontest": {
-        "test_cmd": "make -j4 zstd \
-                && cd tests \
-                && make -j4 regressiontest \
-                && echo 'regressiontest result => pass' \
-                || echo 'regressiontest result => fail'; \
-                cd ..",
-        "apt-pkgs": ["file"],
+        "test_cmd": '''(
+                make -j4 zstd \\
+                && make install \\
+                && cd tests/regression \\
+                && make clean \\
+                && make -j4 test \\
+                && ./test --cache data-cache --zstd ../../zstd --output new-results.csv --diff results.csv \\
+                && echo 'regressiontest result => pass' \\
+                || echo 'regressiontest result => fail'
+                ) #''',
+        "apt-pkgs": ["file", "libcurl4-openssl-dev"],
     },
     "grep_test": {
-        "test_cmd": "make -j4 zstd \
-                && cd tests \
-                && make -j4 test-zstdgrep \
-                && echo 'grep_test result => pass' \
-                || echo 'grep_test result => fail'; \
-                cd ..",
+        "test_cmd": '''( \\
+                make -j4 zstd \\
+                && cd tests \\
+                && make -j4 test-zstdgrep \\
+                && echo 'grep_test result => pass' \\
+                || echo 'grep_test result => fail' \\
+                ) #''',
         "apt-pkgs": ["file"],
     },
     "zstream_tests": {
-        "test_cmd": "make -j4 zstd \
-                && cd tests \
-                && make -j4 test-zstream \
-                && echo 'zstream_tests result => pass' \
-                || echo 'zstream_tests result => fail'; \
-                cd ..",
+        "test_cmd": """(make -j4 zstd \\
+                && cd tests \\
+                && make -j4 test-zstream \\
+                && echo 'zstream_tests result => pass' \\
+                || echo 'zstream_tests result => fail'
+                ) #""",
         "apt-pkgs": ["file"],
     },
     "zstd-0.4.2": {
