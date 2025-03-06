@@ -110,7 +110,10 @@ def main(
             return
         output_file = str(output_file)
     if Path(dataset_name_or_path).exists():
-        dataset = load_from_disk(dataset_name_or_path)
+        if Path(dataset_name_or_path).suffix == ".json":
+            dataset = load_dataset("json", data_files=dataset_name_or_path)
+        else:
+            dataset = load_from_disk(dataset_name_or_path)
     else:
         dataset = load_dataset(dataset_name_or_path)
 

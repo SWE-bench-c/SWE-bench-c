@@ -42,6 +42,8 @@ MODEL_LIMITS = {
     "gpt-4-0613": 8_192,
     "gpt-4-1106-preview": 128_000,
     "gpt-4-0125-preview": 128_000,
+    "gpt-4o": 128_000,
+    "gpt-4o-2024-08-06": 128_000,
 }
 
 # The cost per token for each model input.
@@ -61,6 +63,8 @@ MODEL_COST_PER_INPUT = {
     "gpt-4-32k": 0.00006,
     "gpt-4-1106-preview": 0.00001,
     "gpt-4-0125-preview": 0.00001,
+    "gpt-4o": 0.00001,
+    "gpt-4o-2024-08-06": 0.00001,
 }
 
 # The cost per token for each model output.
@@ -80,6 +84,8 @@ MODEL_COST_PER_OUTPUT = {
     "gpt-4-32k": 0.00012,
     "gpt-4-1106-preview": 0.00003,
     "gpt-4-0125-preview": 0.00003,
+    "gpt-4o": 0.00003,
+    "gpt-4o-2024-08-06": 0.00003,
 }
 
 # used for azure
@@ -475,12 +481,17 @@ def main(
                 existing_ids.add(instance_id)
     logger.info(f"Read {len(existing_ids)} already completed ids from {output_file}")
     if Path(dataset_name_or_path).exists():
-        dataset = load_from_disk(dataset_name_or_path)
+        if Path(dataset_name_or_path).suffix == ".json":
+            dataset = load_dataset("json", data_files=dataset_name_or_path)
+        else:
+            dataset = load_from_disk(dataset_name_or_path)
     else:
         dataset = load_dataset(dataset_name_or_path)
     if not split in dataset:
-        raise ValueError(f"Invalid split {split} for dataset {dataset_name_or_path}")
-    dataset = dataset[split]
+        pass
+        # raise ValueError(f"Invalid split {split} for dataset {dataset_name_or_path}")
+    else:
+        dataset = dataset[split]
     lens = np.array(list(map(len, dataset["text"])))
     dataset = dataset.select(np.argsort(lens))
     if len(existing_ids) > 0:
