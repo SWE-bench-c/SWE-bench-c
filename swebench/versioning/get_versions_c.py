@@ -33,7 +33,7 @@ def get_version(instance)->Optional[str]:
     """
     repo = instance["repo"]
     out_check = subprocess.run(
-        f"git tag --no-contains {instance['base_commit']}",
+        f"git tag --no-contains {instance['base_commit']} --sort=creatordate",
         shell=True,
         capture_output=True,
     )
