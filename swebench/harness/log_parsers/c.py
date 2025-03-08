@@ -14,12 +14,16 @@ def parse_log_redis(log: str, test_spec: TestSpec) -> dict[str, str]:
     """
     del test_spec
     test_status_map = {}
-    test_log_pattern = r'\[(?P<status>ok|err)\]: (?P<test_name>.*?)(\((?P<duration>.*)\))?\n'
+    # pattern is [ok|err]: <test_name> <in <test_file>: optional> <(duration)>
+    test_log_pattern = r'\[(?P<status>ok|err)\]: (?P<test_name>.*?)\n'
     for match_obj in re.finditer(test_log_pattern, log):
         status = match_obj.group('status')
         test_name = match_obj.group('test_name')
-        duration = match_obj.group('duration')
-        del duration
+        # remove timing information
+        test_name = re.sub(r'\(\d+ (seconds|ms)\)', '', test_name).strip()
+        # remove test file in errored tests
+        test_name = re.sub(r' in tests/.*\.tcl\s*$', '', test_name).strip()
+
         if status == 'ok':
             test_status_map[test_name] = TestStatus.PASSED.value
         elif status == 'err':
