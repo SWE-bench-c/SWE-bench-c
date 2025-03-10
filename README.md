@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://swebench.com">
-    <img src="assets/figures/swellama_banner.svg" style="height: 10em" alt="Kawi the SWE-Llama" />
+    <img src="assets/figures/vayavya-logo.svg" style="height: 10em" alt="vayavya-logo" />
   </a>
 </p>
 
