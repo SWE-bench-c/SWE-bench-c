@@ -15,11 +15,11 @@ Test framework for bench marking ability of LM's to solve real world problems(sp
 # Data sets
 
 These are the repositories used in c bench marking
-| repo | homepage |
-| ------| -------------- |
-| zstd | https://github.com/facebook/zstd |
-| jq   | https://github.com/jqlang/jq |
-| redis | https://github.com/redis/redis |
+| repo | homepage | License |
+| ------| -------------- | ---------------|
+| zstd | https://github.com/facebook/zstd | GPL-2.0 |
+| jq   | https://github.com/jqlang/jq | jq-custom |
+| redis | https://github.com/redis/redis | RSALv2 |
 
 
 # Set up
