@@ -28,38 +28,38 @@ SPECS_JQ3 = {
 
 SPECS_ZSTD = {
     "playtest": {
-        "test_cmd": '''( \\
+        "test_cmd": """( \\
                 make -j4 zstd \\
                 && cd tests \\
                 && make -j4 datagen \\
                 && ZSTD=../programs/zstd ./playTests.sh \\
                 && echo 'playtest result => pass' \\
                 || echo 'playtest result => fail' \\
-                ) #''',
+                ) #""",
         "apt-pkgs": ["file", "python3"],
     },
     "fuzztest": {
-        "test_cmd": '''(
+        "test_cmd": """(
                 make -j4 zstd \\
                 && cd tests \\
                 && make -j4 fuzztest \\
                 && echo 'fuzztest result => pass' \\
                 || echo 'fuzztest result => fail' \\
-                ) #''',
+                ) #""",
         "apt-pkgs": ["file"],
     },
     "cli_tests": {
-        "test_cmd": '''(
+        "test_cmd": """(
                 make -j4 zstd \\
                 && cd tests \\
                 && make -j4 test-cli-tests \\
                 && echo 'cli_tests result => pass' \\
                 || echo 'cli_tests result => fail'
-                ) #''',
+                ) #""",
         "apt-pkgs": ["file", "python3"],
     },
     "regressiontest": {
-        "test_cmd": '''(
+        "test_cmd": """(
                 make -j4 zstd \\
                 && make install \\
                 && cd tests/regression \\
@@ -68,17 +68,17 @@ SPECS_ZSTD = {
                 && ./test --cache data-cache --zstd ../../zstd --output new-results.csv --diff results.csv \\
                 && echo 'regressiontest result => pass' \\
                 || echo 'regressiontest result => fail'
-                ) #''',
+                ) #""",
         "apt-pkgs": ["file", "libcurl4-openssl-dev"],
     },
     "grep_test": {
-        "test_cmd": '''( \\
+        "test_cmd": """( \\
                 make -j4 zstd \\
                 && cd tests \\
                 && make -j4 test-zstdgrep \\
                 && echo 'grep_test result => pass' \\
                 || echo 'grep_test result => fail' \\
-                ) #''',
+                ) #""",
         "apt-pkgs": ["file"],
     },
     "zstream_tests": {
@@ -96,12 +96,35 @@ SPECS_ZSTD = {
     },
 }
 
+SPECS_REDIS = {
+    version: {
+        "test_cmd": """(
+            make distclean \\
+            && make -j4 BUILD_TLS=yes \\
+            && ./utils/gen-test-certs.sh > /dev/null \\
+            && ./runtest --durable --tls --no-latency | ansi2txt
+        ) #""",
+        "apt-pkgs": ["libssl-dev", "pkg-config", "tcl", "tcl-tls", "procps", "colorized-logs"],
+    }
+    for version in [
+        "8.0-m04-int",
+        "3.2.13",
+        "6.0.20",
+        "6.2.17",
+        "5.0.14",
+        "7.2.7",
+        "3.0.7",
+        "2.4.18",
+    ]
+}
+
 INSTALL_JQ = "git submodule update --init "
 
 
 MAP_REPO_VERSION_TO_SPECS_C = {
     "jqlang/jq": {**SPECS_JQ1, **SPECS_JQ2, **SPECS_JQ3},
     "facebook/zstd": SPECS_ZSTD,
+    "redis/redis": SPECS_REDIS,
 }
 
 MAP_REPO_TO_INSTALL_C = {
