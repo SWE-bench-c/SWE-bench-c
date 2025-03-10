@@ -102,7 +102,7 @@ SPECS_REDIS = {
             make distclean \\
             && make -j4 BUILD_TLS=yes \\
             && ./utils/gen-test-certs.sh > /dev/null \\
-            && ./runtest --durable --tls | ansi2txt
+            && ./runtest --durable --tls --no-latency | ansi2txt
         ) #""",
         "apt-pkgs": ["libssl-dev", "pkg-config", "tcl", "tcl-tls", "procps", "colorized-logs"],
     }
