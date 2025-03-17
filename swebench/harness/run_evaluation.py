@@ -611,7 +611,7 @@ if __name__ == "__main__":
     )
 
     # Common args
-    parser.add_argument("--dataset_name", default="princeton-nlp/SWE-bench_Lite", type=str, help="Name of dataset or path to JSON file.")
+    parser.add_argument("--dataset_name", default="c-bench/c-bench", type=str, help="Name of dataset or path to JSON file.")
     parser.add_argument("--split", type=str, default="test", help="Split of the dataset")
     parser.add_argument( "--instance_ids", nargs="+", type=str, help="Instance IDs to run (space separated)")
     parser.add_argument("--predictions_path", type=str, help="Path to predictions file - if 'gold', uses gold predictions", required=True)
