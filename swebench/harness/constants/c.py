@@ -29,9 +29,9 @@ SPECS_JQ3 = {
 SPECS_ZSTD = {
     "playtest": {
         "test_cmd": """( \\
-                make -j4 zstd \\
+                make -j${TEST_MAKE_THREADS} zstd \\
                 && cd tests \\
-                && make -j4 datagen \\
+                && make -j${TEST_MAKE_THREADS} datagen \\
                 && ZSTD=../programs/zstd ./playTests.sh \\
                 && echo 'playtest result => pass' \\
                 || echo 'playtest result => fail' \\
@@ -40,9 +40,9 @@ SPECS_ZSTD = {
     },
     "fuzztest": {
         "test_cmd": """(
-                make -j4 zstd \\
+                make -j${TEST_MAKE_THREADS} zstd \\
                 && cd tests \\
-                && make -j4 fuzztest \\
+                && make -j${TEST_MAKE_THREADS} fuzztest \\
                 && echo 'fuzztest result => pass' \\
                 || echo 'fuzztest result => fail' \\
                 ) #""",
@@ -50,9 +50,9 @@ SPECS_ZSTD = {
     },
     "cli_tests": {
         "test_cmd": """(
-                make -j4 zstd \\
+                make -j${TEST_MAKE_THREADS} zstd \\
                 && cd tests \\
-                && make -j4 test-cli-tests \\
+                && make -j${TEST_MAKE_THREADS} test-cli-tests \\
                 && echo 'cli_tests result => pass' \\
                 || echo 'cli_tests result => fail'
                 ) #""",
@@ -60,11 +60,11 @@ SPECS_ZSTD = {
     },
     "regressiontest": {
         "test_cmd": """(
-                make -j4 zstd \\
+                make -j${TEST_MAKE_THREADS} zstd \\
                 && make install \\
                 && cd tests/regression \\
                 && make clean \\
-                && make -j4 test \\
+                && make -j${TEST_MAKE_THREADS} test \\
                 && ./test --cache data-cache --zstd ../../zstd --output new-results.csv --diff results.csv \\
                 && echo 'regressiontest result => pass' \\
                 || echo 'regressiontest result => fail'
@@ -73,25 +73,25 @@ SPECS_ZSTD = {
     },
     "grep_test": {
         "test_cmd": """( \\
-                make -j4 zstd \\
+                make -j${TEST_MAKE_THREADS} zstd \\
                 && cd tests \\
-                && make -j4 test-zstdgrep \\
+                && make -j${TEST_MAKE_THREADS} test-zstdgrep \\
                 && echo 'grep_test result => pass' \\
                 || echo 'grep_test result => fail' \\
                 ) #""",
         "apt-pkgs": ["file"],
     },
     "zstream_tests": {
-        "test_cmd": """(make -j4 zstd \\
+        "test_cmd": """(make -j${TEST_MAKE_THREADS} zstd \\
                 && cd tests \\
-                && make -j4 test-zstream \\
+                && make -j${TEST_MAKE_THREADS} test-zstream \\
                 && echo 'zstream_tests result => pass' \\
                 || echo 'zstream_tests result => fail'
                 ) #""",
         "apt-pkgs": ["file"],
     },
     "zstd-0.4.2": {
-        "test_cmd": "make -k -j4 --trace check",
+        "test_cmd": "make -k -j${TEST_MAKE_THREADS} --trace check",
         "apt-pkgs": ["file"],
     },
 }
@@ -100,7 +100,7 @@ SPECS_REDIS = {
     version: {
         "test_cmd": """(
             make distclean \\
-            && make -j4 BUILD_TLS=yes \\
+            && make -j${TEST_MAKE_THREADS} BUILD_TLS=yes \\
             && ./utils/gen-test-certs.sh > /dev/null \\
             && ./runtest --durable --tls | ansi2txt
         ) #""",
