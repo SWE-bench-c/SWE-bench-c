@@ -96,7 +96,7 @@ def main(
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("--dataset_name", type=str, default="c-bench/c-bench", help="Name of the dataset to use")
+    parser.add_argument("--dataset_name", type=str, default="SWE-bench-c/SWE-bench-c", help="Name of the dataset to use")
     parser.add_argument("--split", type=str, default="test", help="Split to use")
     parser.add_argument("--instance_ids", nargs="+", type=str, help="Instance IDs to run (space separated)")
     parser.add_argument("--max_workers", type=int, default=4, help="Max workers for parallel processing")

@@ -107,7 +107,7 @@ def run_sequential(func, args_list):
     return succeeded, failed
 
 
-def load_swebench_dataset(name="c-bench/c-bench", split="test", instance_ids=None) -> list[SWEbenchInstance]:
+def load_swebench_dataset(name="SWE-bench-c/SWE-bench-c", split="test", instance_ids=None) -> list[SWEbenchInstance]:
     """
     Load SWE-bench dataset from Hugging Face Datasets or local .json/.jsonl file
     """
@@ -125,8 +125,8 @@ def load_swebench_dataset(name="c-bench/c-bench", split="test", instance_ids=Non
 
     else:
         # Load from Hugging Face Datasets
-        if name.lower() in {"c-bench", "cbench", "c_bench"}:
-            name = "c-bench/c-bench"
+        if name.lower() in {"swe-bench-c", "swe_bench_c", "c_bench"}:
+            name = "SWE-bench-c/SWE-bench-c"
         if (Path(name) / split / 'dataset_info.json').exists():
             dataset = cast(Dataset, load_from_disk(Path(name) / split))
         else:

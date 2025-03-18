@@ -8,7 +8,7 @@
 
 ---
 
-# C-Bench
+# SWE-bench-c
 
 Test framework for bench marking ability of LM's to solve real world problems(specifically for c/c++).
 
@@ -24,8 +24,8 @@ These are the repositories used in c bench marking
 
 # Set up
 
-`Python` and `docker` are required to run the *c-bench* and at least *8 cores* and *16 GB RAM* is recommended for running.
-c-bench will also generate lot of docker images during running. Even though they are removed once the test finishes
+`Python` and `docker` are required to run the *SWE-bench-c* and at least *8 cores* and *16 GB RAM* is recommended for running.
+SWE-bench-c will also generate lot of docker images during running. Even though they are removed once the test finishes
 you are recommended to have at least 150GB storage in your root partition or wherever the docker stores the images
 
 > [!NOTE]
@@ -34,8 +34,8 @@ you are recommended to have at least 150GB storage in your root partition or whe
 
 First clone the repo and install the dependencies
 ```bash
-git clone https://github.com/c-bench/c-bench.git
-cd c-bench
+git clone https://github.com/SWE-bench-c/SWE-bench-c.git
+cd SWE-bench-c
 # below 2 steps are optional
 virtualenv .venv
 source .venv/bin/activate
@@ -61,7 +61,7 @@ To evaluate a patch set run the below command:
 
 ```bash
 python -m swebench.harness.run_evaluation \
-    --dataset_name c-bench/c-bench \
+    --dataset_name SWE-bench-c/SWE-bench-c \
     --predictions_path <path_to_predictions> \
     --max_workers <num_workers> \
     --run_id <run_id>

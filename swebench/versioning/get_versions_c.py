@@ -189,7 +189,7 @@ def main(args):
             logger.info(
                 f"Creating clone of {data_tasks[0]['repo']} at {testbed_repo_name}"
             )
-            cmd_clone = f"git clone git@github.com:c-bench/{repo_prefix} {testbed_repo_name}"
+            cmd_clone = f"git clone git@github.com:SWE-bench-c/{repo_prefix} {testbed_repo_name}"
             subprocess.run(cmd_clone, shell=True, check=True, stdout=subprocess.DEVNULL)
         else:
             logger.info(
