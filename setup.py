@@ -39,6 +39,7 @@ setuptools.setup(
         'python-dotenv',
         'requests',
         'rich',
+        'ticktoken',
         'tenacity',
         'tqdm',
         'unidiff',
