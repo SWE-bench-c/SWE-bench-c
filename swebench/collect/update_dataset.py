@@ -103,7 +103,7 @@ def update_dataset(
         return
 
     # Check if columns already exist
-    new_columns = ["lines_edited", "files_edited", "problem_statement_tokens"]
+    new_columns = ["lines_edited", "files_edited", "problem_statement_tokens", "files_added", "files_removed"]
     existing_columns = [col for col in new_columns if col in dataset.column_names]
 
     if existing_columns and not override:
@@ -112,6 +112,7 @@ def update_dataset(
         if response.lower() != "y":
             print("Operation cancelled.")
             return
+        dataset = dataset.remove_columns(existing_columns)
 
     # Extract information from patches and problem statements
     lines_edited_list = []
